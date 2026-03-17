@@ -1,37 +1,39 @@
-// 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
-})
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
-// 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
   const { code } = event
 
+  if (!code) {
+    return { success: false, errCode: -1, message: '缺少 code 参数' }
+  }
+
   try {
-    // 获取手机号
-    const result = await cloud.openapi.phonenumber.getPhoneNumber({
-      code: code
-    })
+    const result = await cloud.openapi.phonenumber.getPhoneNumber({ code })
 
     if (result && result.phoneInfo) {
       return {
         success: true,
-        phoneNumber: result.phoneInfo.phoneNumber
-      }
-    } else {
-      return {
-        success: false,
-        message: '获取手机号失败'
+        phoneNumber: result.phoneInfo.purePhoneNumber || result.phoneInfo.phoneNumber
       }
     }
-  } catch (err) {
-    console.error('获取手机号失败', err)
+
     return {
       success: false,
-      message: err.message || '获取手机号失败'
+      errCode: result.errCode || -1,
+      message: result.errMsg || '获取手机号失败，返回数据异常'
+    }
+  } catch (err) {
+    console.error('获取手机号失败', JSON.stringify({
+      errCode: err.errCode,
+      errMsg: err.errMsg,
+      message: err.message
+    }))
+    return {
+      success: false,
+      errCode: err.errCode || -1,
+      message: err.errMsg || err.message || '获取手机号失败'
     }
   }
 }

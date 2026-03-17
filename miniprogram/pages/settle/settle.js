@@ -393,16 +393,10 @@ Page({
 
   // 更新是否可以提交
   updateCanSubmit() {
-    const { tableNumber, orderGoods } = this.data
+    const { orderGoods } = this.data
     let canSubmit = true
 
-    // 检查订单商品
     if (!orderGoods || orderGoods.length === 0) {
-      canSubmit = false
-    }
-
-    // 无论是堂食还是打包，都必须有桌码
-    if (!tableNumber) {
       canSubmit = false
     }
 
@@ -430,15 +424,6 @@ Page({
       this.setData({
         showAuthModal: true,
         savedPayMethod: this.data.payMethod // 保存当前选择的支付方式
-      })
-      return
-    }
-
-    // 检查桌码（无论是堂食还是打包都需要）
-    if (!this.data.tableNumber) {
-      wx.showToast({
-        title: '请先扫描桌码',
-        icon: 'none'
       })
       return
     }

@@ -1,4 +1,6 @@
 //app.js
+const config = require('./config.js')
+
 App({
   onLaunch: async function () {
     if (!wx.cloud) {
@@ -15,7 +17,7 @@ App({
       }
 
       wx.cloud.init({
-        env: '填写你的环境ID',
+        env: config.envId,
         traceUser: true,
       })
       

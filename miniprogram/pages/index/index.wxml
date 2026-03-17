@@ -77,8 +77,7 @@
             <text class="price-symbol">¥</text>
             <text class="price-num">{{cartTotalPriceText}}</text>
           </view>
-          <view class="cart-tip" wx:if="{{tableNumber}}">{{tableNumber}}号桌</view>
-          <view class="cart-tip" wx:else>请微信扫桌码点餐</view>
+          <view class="cart-tip">已选{{cartCount}}件商品</view>
         </view>
       </view>
       <view class="cart-right">

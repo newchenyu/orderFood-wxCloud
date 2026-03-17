@@ -76,8 +76,8 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wx57595aaf3f7c3344",
+  "appid": "wxbbf0eefca245ab32",
   "cloud": true,
-  "libVersion": "3.8.0",
+  "libVersion": "3.12.1",
   "simulatorPluginLibVersion": {}
 }

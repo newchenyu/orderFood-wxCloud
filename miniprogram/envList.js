@@ -1,4 +1,5 @@
-const envList = [{"envId":"cloud1-2g7lbemveb48a7ce","alias":"cloud1"}]
+const config = require('./config.js')
+const envList = [{"envId":config.envId,"alias":"cloud1"}]
 const isMac = false
 module.exports = {
     envList,

@@ -695,23 +695,6 @@ Page({
       return
     }
 
-    // 检查是否有桌码，如果没有则提示用户扫桌码
-    if (!this.data.tableNumber) {
-      wx.showModal({
-        title: '提示',
-        content: '请先扫描桌码',
-        confirmText: '立即扫码',
-        cancelText: '取消',
-        success: (res) => {
-          if (res.confirm) {
-            this.scanTableCode()
-          }
-        }
-      })
-      return
-    }
-
-    // 有桌码，跳转到结算页面
     this.navigateToSettle()
   },
 

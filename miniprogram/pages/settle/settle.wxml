@@ -19,19 +19,6 @@
     </view>
   </view>
 
-  <!-- 桌码输入（无论堂食还是打包都需要） -->
-  <view class="section">
-    <view class="table-code-wrapper">
-      <view class="table-code-display">
-        <text class="table-code-label">桌码号：</text>
-        <text class="table-code-value table-code-bold">{{tableNumber || '请扫描桌码'}}</text>
-      </view>
-      <view class="table-code-actions">
-        <view class="change-table-btn" bind:tap="scanTableCode">换个位置</view>
-      </view>
-    </view>
-  </view>
-
   <!-- 订单商品列表 -->
   <view class="section">
     <view class="section-title-wrapper">

@@ -112,24 +112,11 @@
 	flex: 1;
 }
 
-.phone-display {
+.phone-input {
+	flex: 1;
 	font-size: 28rpx;
-	color: #999;
-}
-
-.phone-btn {
-	padding: 12rpx 30rpx;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	color: white;
-	font-size: 24rpx;
-	border-radius: 50rpx;
-	border: none;
-	line-height: 1.5;
-	width:250rpx !important;
-}
-
-.phone-btn::after {
-	border: none;
+	color: #222;
+	height: 105rpx;
 }
 
 .apply-btn {
