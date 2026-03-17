@@ -363,7 +363,7 @@ Page({
       // 测试订单数据
       const testOrder = {
         _id: testOrderId,
-        orderType: 'dineIn', // 测试使用堂食订单
+        orderType: 'takeOut', // 测试使用打包订单
         tableNumber: '01',
         goods: [
           {
@@ -386,7 +386,7 @@ Page({
       }
       
       // 生成打印内容
-      const orderTypeText = testOrder.orderType === 'dineIn' ? '堂食' : '打包'
+      const orderTypeText = '点餐'
       
       let content = `<C><font# bolder=1 height=2 width=2>${orderTypeText}订单</font#></C><BR>`
       content += `<C><font# bolder=1 height=2 width=2>${escapeHtml(shopInfo?.name || '餐饮店')}</font#></C><BR>`
@@ -464,7 +464,7 @@ Page({
         data: {
           $url: 'printNote',
           sn: printerInfo.sn,
-          voice: '16', 
+          voice: '19', 
           voicePlayTimes: 1,
           voicePlayInterval: 3,
           content: content,

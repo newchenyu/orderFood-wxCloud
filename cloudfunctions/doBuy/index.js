@@ -9,7 +9,7 @@ const db = cloud.database()
 
 // 生成打印内容
 function generatePrintContent(order, shopInfo) {
-  const orderTypeText = order.orderType === 'dineIn' ? '堂食' : '打包'
+  const orderTypeText = '点餐'
   
   // 处理时间：如果 createTime 是服务器时间对象，需要特殊处理
   let date = new Date()
@@ -209,8 +209,8 @@ async function printOrder(orderId, orderData) {
     const printContent = generatePrintContent(orderData, shopInfo)
     
     // 4. 调用打印接口
-    // 根据订单类型设置播报音源：16-堂食订单，19-打包订单
-    const voice = orderData.orderType === 'dineIn' ? '16' : '19'
+    // 播报音源：19-打包订单（小吃摊固定打包）
+    const voice = '19'
     
     const printRes = await cloud.callFunction({
       name: 'printManage',
@@ -251,7 +251,7 @@ exports.main = async (event, context) => {
     useMiandan,        // 是否使用免单
     payWithBalance,    // 是否使用余额支付
     tableNumber,       // 桌码号
-    orderType          // 订单类型：dineIn-堂食，takeOut-打包
+    orderType          // 订单类型：固定为 takeOut（小吃摊）
   } = event
 
   try {
@@ -306,8 +306,8 @@ exports.main = async (event, context) => {
       }
 
       // 4. 创建订单
-      // 确定订单类型：如果有 tableNumber 且未指定 orderType，则默认为堂食；否则为打包
-      const finalOrderType = orderType || (tableNumber ? 'dineIn' : 'takeOut')
+      // 小吃摊固定为打包
+      const finalOrderType = 'takeOut'
       const date = new Date() // 记录订单创建时间
       
       const orderData = {
@@ -316,7 +316,7 @@ exports.main = async (event, context) => {
         totalPrice: totalPrice,
         finalPrice: finalPrice,
         useMiandan: useMiandan,
-        orderType: finalOrderType, // 订单类型：dineIn-堂食，takeOut-打包
+        orderType: finalOrderType, // 订单类型：固定打包
         // status: 0, // 0-待确认
         pay_status: payWithBalance || useMiandan ? true : false, // 余额支付或免单直接标记为已支付，微信支付由回调更新
         createTime: db.serverDate(),

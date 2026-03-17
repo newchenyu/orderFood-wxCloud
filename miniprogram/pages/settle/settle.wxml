@@ -1,24 +1,6 @@
 <!--pages/settle/settle.wxml-->
 <wxs module="priceHelper" src="../../utils/priceHelper.wxs"></wxs>
 <view class="page">
-  <!-- 订单类型选择 -->
-  <view class="section">
-    <view class="order-type-list">
-      <view 
-        class="order-type-item {{orderType === 'dineIn' ? 'active' : ''}}"
-        data-value="dineIn"
-        bind:tap="selectOrderType">
-        堂食
-      </view>
-      <view 
-        class="order-type-item {{orderType === 'takeOut' ? 'active' : ''}}"
-        data-value="takeOut"
-        bind:tap="selectOrderType">
-        打包
-      </view>
-    </view>
-  </view>
-
   <!-- 订单商品列表 -->
   <view class="section">
     <view class="section-title-wrapper">

@@ -7,7 +7,7 @@ Page({
     orderGoods: [], // 订单商品列表
     totalPrice: 0, // 商品总价
     finalPrice: 0, // 实付金额
-    orderType: 'dineIn', // 订单类型：dineIn-堂食，takeOut-打包
+    orderType: 'takeOut', // 订单类型：固定为打包（小吃摊）
     tableNumber: '', // 桌码号
     payMethod: 'balance', // 支付方式：miandan-免单，balance-余额，wechat-微信
     userInfo: null, // 用户信息
@@ -77,8 +77,7 @@ Page({
         // 如果有传递的桌码，使用传递的桌码
         const tableNumber = cartData.tableNumber || ''
         
-        // 根据是否有桌码设置默认订单类型（有桌码默认堂食，无桌码默认打包）
-        // 但由于现在都需要桌码，所以默认设置为堂食
+        // 小吃摊固定为打包
         // 确保价格是数字类型
         const totalPrice = Number(cartData.totalPrice) || 0
         this.setData({
@@ -86,7 +85,7 @@ Page({
           totalPrice: totalPrice,
           finalPrice: totalPrice,
           tableNumber: tableNumber,
-          orderType: 'dineIn' // 默认堂食
+          orderType: 'takeOut' // 固定打包
         })
 
         // 清除存储的购物车数据
@@ -199,12 +198,7 @@ Page({
     }
   },
 
-  // 选择订单类型
-  selectOrderType(e) {
-    const orderType = e.currentTarget.dataset.value
-    this.setData({ orderType })
-    this.updateCanSubmit()
-  },
+
 
   // 扫码获取桌码
   scanTableCode() {

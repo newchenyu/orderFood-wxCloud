@@ -12,7 +12,7 @@ const _ = db.command
 
 // 生成打印内容
 function generatePrintContent(order, shopInfo) {
-  const orderTypeText = order.orderType === 'dineIn' ? '堂食' : '打包'
+  const orderTypeText = '点餐'
   
   // 处理时间：如果 createTime 是服务器时间对象，需要特殊处理
   let date = new Date()
@@ -204,8 +204,8 @@ async function printOrderAsync(orderId, orderData) {
     const printContent = generatePrintContent(orderData, shopInfo)
     
     // 4. 调用打印接口
-    // 根据订单类型设置播报音源：16-堂食订单，19-打包订单
-    const voice = orderData.orderType === 'dineIn' ? '16' : '19'
+    // 播报音源：19-打包订单（小吃摊固定打包）
+    const voice = '19'
     
     const printRes = await cloud.callFunction({
       name: 'printManage',
