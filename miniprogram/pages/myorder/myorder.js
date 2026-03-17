@@ -121,6 +121,48 @@ Page({
         createTimeText: order.createTime ? formatTime(order.createTime) : ''
       }))
       
+      // 收集所有需要转换的云文件ID
+      const cloudFileIds = []
+      list.forEach(order => {
+        if (order.goods && Array.isArray(order.goods)) {
+          order.goods.forEach(g => {
+            if (g.dishImage && g.dishImage.startsWith('cloud://')) {
+              cloudFileIds.push(g.dishImage)
+            }
+          })
+        }
+      })
+
+      // 批量将云文件ID转换为临时HTTP链接
+      if (cloudFileIds.length > 0) {
+        try {
+          const tempRes = await wx.cloud.getTempFileURL({
+            fileList: [...new Set(cloudFileIds)] // 去重
+          })
+          // 构建映射表
+          const urlMap = {}
+          if (tempRes.fileList) {
+            tempRes.fileList.forEach(f => {
+              if (f.status === 0 && f.tempFileURL) {
+                urlMap[f.fileID] = f.tempFileURL
+              }
+            })
+          }
+          // 替换 dishImage
+          list.forEach(order => {
+            if (order.goods && Array.isArray(order.goods)) {
+              order.goods.forEach(g => {
+                if (g.dishImage && urlMap[g.dishImage]) {
+                  g.dishImage = urlMap[g.dishImage]
+                }
+              })
+            }
+          })
+        } catch (e) {
+          console.error('转换图片链接失败', e)
+        }
+      }
+
       const newList = append ? this.data.orderList.concat(list) : list
       const hasMore = list.length === pageSize
       
