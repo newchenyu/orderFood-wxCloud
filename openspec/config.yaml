@@ -1,0 +1,76 @@
+schema: spec-driven
+
+context: |
+  项目名称：餐饮点餐小程序（orderFood-wxCloud）
+  领域：餐饮行业 SaaS - 扫码点餐系统
+
+  技术栈：
+    - 前端：微信小程序原生开发（WXML / WXSS / JavaScript）
+    - 后端：微信云开发（Serverless）- 云函数（Node.js）
+    - 数据库：微信云数据库（NoSQL 文档型）
+    - UI 框架：Vant Weapp + ColorUI
+    - 其他组件：Painter（Canvas 海报生成）、avatarNicknameModal（头像昵称授权）
+
+  架构概览：
+    miniprogram/           # 小程序前端
+      pages/index/         # 点餐首页（菜品分类浏览 + 购物车）
+      pages/recharge/      # 会员充值页
+      pages/myorder/       # 我的订单页
+      pages/myhome/        # 个人中心页
+      pages/settle/        # 结算页（支付流程）
+      pages/admin/         # 管理后台（8 个子页面）
+        admin.js           # 管理员首页
+        dish/              # 菜品管理（增删改查）
+        user/              # 会员管理
+        order/             # 订单管理
+        rechargeOptions/   # 充值套餐管理
+        notice/            # 公告管理
+        shopInfo/          # 店铺设置
+        tableCode/         # 桌码管理（二维码生成）
+        printer/           # 打印机管理（IoT 小票打印）
+      components/          # 自定义组件
+      vant/                # Vant Weapp UI 组件库
+      utils/               # 工具函数（priceHelper、tagHelper、upload）
+    cloudfunctions/        # 云函数目录（10 个函数）
+      login/               # 用户登录（获取 openid）
+      getCategory/         # 获取菜品分类
+      doBuy/               # 下单操作
+      pay/                 # 微信支付
+      pay_success/         # 支付成功回调
+      get_code/            # 生成小程序码
+      getPhoneNumber/      # 获取用户手机号
+      getUserList/         # 获取用户列表（管理端）
+      printBack/           # 打印机回调
+      printManage/         # 打印机管理
+
+  数据库集合：
+    - user（用户表）、dish（菜品表）、dishCategory（分类表）
+    - order（订单表）、notice（公告表）、printer（打印机表）
+    - rechargeOptions（充值套餐表）、freeBuy（免单记录表）
+    - shopInfo（店铺表）、admin（管理员表）、tableCode（桌码表）
+
+  核心业务流程：
+    - 顾客扫桌码 → 浏览菜品 → 加入购物车 → 结算下单 → 微信支付/余额支付 → 自动打印小票
+    - 会员充值 → 获得余额 + 免单次数
+    - 管理员通过隐藏入口（"我的"页面连续点击5次）进入管理后台
+
+  约定：
+    - 使用微信云开发 API（wx.cloud）进行前后端交互
+    - 每个云函数需配置独立的环境 ID
+    - 数据库集合权限设为自定义安全规则（read: true, write: true）
+    - 红色（#e54d42）为主题色
+    - Page 方法被全局重写以拦截 onLoad，确保 openid 就绪后再加载页面
+
+rules:
+  proposal:
+    - 保持提案简洁，500字以内
+    - 始终包含"非目标"部分
+    - 变更需考虑对顾客端和管理端的双向影响
+  design:
+    - 遵循微信小程序开发规范和最佳实践
+    - UI 变更需兼容 Vant Weapp 和 ColorUI 的设计风格
+    - 云函数变更需考虑冷启动性能和并发限制
+  tasks:
+    - 将任务分解为最多2小时的块
+    - 涉及云函数的任务需单独列出部署步骤
+    - 涉及数据库的任务需说明集合和字段变更
